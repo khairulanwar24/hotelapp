@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "132256060487",
+    "project_id": "hotel-khan",
+    "storage_bucket": "hotel-khan.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132256060487:android:b756719af32a56232b8d62",
+        "android_client_info": {
+          "package_name": "com.hotelapp.khan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdxCtKgSgSfXiLVtBkW-13cmPujxUTIvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
