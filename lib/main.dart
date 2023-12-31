@@ -1,5 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hotelkhan/config/app_color.dart';
 import 'package:hotelkhan/config/app_route.dart';
 import 'package:hotelkhan/config/session.dart';
 import 'package:hotelkhan/firebase_options.dart';
@@ -24,8 +27,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: GoogleFonts.poppinsTextTheme(),
+        scaffoldBackgroundColor: AppColor.backgroundScaffold,
+        primaryColor: AppColor.primary,
+        colorScheme: const ColorScheme.light(
+          primary: AppColor.primary,
+          secondary: AppColor.secondary,
+        ),
+      ),
       routes: {
         '/': (context) {
           return FutureBuilder(
@@ -41,11 +53,11 @@ class MyApp extends StatelessWidget {
         },
         AppRoute.intro: (context) => const IntroPage(),
         AppRoute.home: (context) => const HomePage(),
-        AppRoute.signin: (context) => const SignIn(),
-        AppRoute.detail: (context) => const Detail(),
-        AppRoute.checkout: (context) => const Checkout(),
-        AppRoute.checkoutSuccess: (context) => const CheckoutSuccess(),
-        AppRoute.detailBooking: (context) => const DetailBooking(),
+        AppRoute.signin: (context) => const IntroPage(),
+        AppRoute.detail: (context) => const IntroPage(),
+        AppRoute.checkout: (context) => const IntroPage(),
+        AppRoute.checkoutSuccess: (context) => const IntroPage(),
+        AppRoute.detailBooking: (context) => const IntroPage(),
       },
     );
   }
