@@ -1,11 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hotelkhan/firebase_options.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); //package yg tipenya plugin (firebase auth, storage, atau firestore)
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  initializeDateFormatting('en_US');
   runApp(const MyApp());
 }
 
