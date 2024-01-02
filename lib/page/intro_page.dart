@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotelkhan/config/app_asset.dart';
-import 'package:hotelkhan/config/app_color.dart';
+import 'package:hotelkhan/config/app_route.dart';
+import 'package:hotelkhan/widget/button_custom.dart';
 
 class IntroPage extends StatelessWidget {
   const IntroPage({super.key});
@@ -52,31 +53,12 @@ class IntroPage extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              SizedBox(
-                height: 50,
-                child: Stack(
-                  children: [
-                    Material(
-                      color: AppColor.primary,
-                      borderRadius: BorderRadius.circular(20),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(20),
-                        onTap: () => {},
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 36, vertical: 12),
-                          child: Text(
-                            'Get Started',
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w900),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+              ButtonCustom(
+                label: 'Get Started',
+                onTap: () {
+                  Navigator.pushReplacementNamed(context, AppRoute.signin);
+                },
+                isExpand: true,
               )
             ],
           ),

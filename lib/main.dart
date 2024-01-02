@@ -9,6 +9,7 @@ import 'package:hotelkhan/firebase_options.dart';
 import 'package:hotelkhan/model/user.dart';
 import 'package:hotelkhan/page/home_page.dart';
 import 'package:hotelkhan/page/intro_page.dart';
+import 'package:hotelkhan/page/signin_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 Future<void> main() async {
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
         },
         AppRoute.intro: (context) => const IntroPage(),
         AppRoute.home: (context) => const HomePage(),
-        AppRoute.signin: (context) => const IntroPage(),
+        AppRoute.signin: (context) => const SignInPage(),
         AppRoute.detail: (context) => const IntroPage(),
         AppRoute.checkout: (context) => const IntroPage(),
         AppRoute.checkoutSuccess: (context) => const IntroPage(),
