@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
               if (snapshot.data == null || snapshot.data!.id == null) {
                 return const IntroPage();
               } else {
-                return HomePage();
+                return const HomePage();
               }
             },
           );
