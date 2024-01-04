@@ -17,8 +17,8 @@ class SigninPage extends StatelessWidget {
       UserSource.signIn(controllerEmail.text, controllerPassword.text)
           .then((response) {
         if (response['success']) {
-          DInfo.dialogSuccess(context, response['message']);
-          DInfo.closeDialog(context, actionAfterClose: () {
+          DInfo.dialogSuccess(response['message']);
+          DInfo.closeDialog(actionAfterClose: () {
             Navigator.pushReplacementNamed(context, AppRoute.home);
           });
         } else {

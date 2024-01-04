@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:hotelkhan/config/session.dart';
-import 'package:hotelkhan/model/user.dart';
+
+import '../model/user.dart';
 
 class UserSource {
   static Future<Map<String, dynamic>> signIn(
-    // BuildContext context,
     String email,
     String password,
   ) async {
@@ -20,21 +20,22 @@ class UserSource {
       Session.saveUser(user);
     } on auth.FirebaseAuthException catch (e) {
       response['success'] = false;
+
       if (e.code == 'user-not-found') {
         response['message'] = 'No user found for that email';
       } else if (e.code == 'wrong-password') {
         response['message'] = 'Wrong password provided for that user';
       } else {
-        response['message'] = 'Sign In Failed';
+        response['message'] = 'Sign in failed';
       }
     }
+    // print(response);
     return response;
   }
 
-  //
   static Future<User> getWhereId(String id) async {
     DocumentReference<Map<String, dynamic>> ref =
-        FirebaseFirestore.instance.collection('user').doc(id);
+        FirebaseFirestore.instance.collection('User').doc(id);
     DocumentSnapshot<Map<String, dynamic>> doc = await ref.get();
     return User.fromJson(doc.data()!);
   }

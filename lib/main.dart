@@ -47,13 +47,13 @@ class MyApp extends StatelessWidget {
               if (snapshot.data == null || snapshot.data!.id == null) {
                 return const IntroPage();
               } else {
-                return const HomePage();
+                return HomePage();
               }
             },
           );
         },
         AppRoute.intro: (context) => const IntroPage(),
-        AppRoute.home: (context) => const HomePage(),
+        AppRoute.home: (context) => HomePage(),
         AppRoute.signin: (context) => SigninPage(),
         AppRoute.detail: (context) => const IntroPage(),
         AppRoute.checkout: (context) => const IntroPage(),
