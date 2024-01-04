@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:hotelkhan/model/hotel.dart';
+import 'package:hotelkhan/source/hotel_source.dart';
 
 class CNearby extends GetxController {
   final _category = 'All Place'.obs;
@@ -13,4 +15,19 @@ class CNearby extends GetxController {
         'Industrial',
         'Village',
       ];
+
+  final _listHotel = <Hotel>[].obs;
+  List<Hotel> get listHotel => _listHotel;
+
+  getListHotel() async {
+    _listHotel.value = await HotelSource.getHotel();
+    update();
+  }
+
+  @override
+  void onInit() {
+    //onInit merujuknya ke GetXController
+    getListHotel();
+    super.onInit();
+  }
 }
