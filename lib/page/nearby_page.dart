@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:hotelkhan/config/app_asset.dart';
 import 'package:hotelkhan/config/app_color.dart';
@@ -29,41 +30,66 @@ class NearbyPage extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        GetBuilder<CNearby>(
-          builder: (_) {
-            List<Hotel> list = _.category == 'All Place'
-                ? _.listHotel
-                : _.listHotel
-                    .where((element) => element.category == _.category)
-                    .toList();
-            // filter data
-            if (list.isEmpty) {
-              return const Center(
-                child: Text('Empty ...'),
-              );
-            }
-            return ListView.builder(
-              itemCount: list.length,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                Hotel hotel = list[index];
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20)),
-                      child: AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: Image.network(
-                          hotel.cover,
-                          fit: BoxFit.cover,
-                        ),
+        hotels(),
+      ],
+    );
+  }
+
+  GetBuilder<CNearby> hotels() {
+    return GetBuilder<CNearby>(
+      builder: (_) {
+        List<Hotel> list = _.category == 'All Place'
+            ? _.listHotel
+            : _.listHotel
+                .where((element) => element.category == _.category)
+                .toList();
+        // filter data
+        if (list.isEmpty) {
+          return const Center(
+            child: Text('Empty ...'),
+          );
+        }
+        return ListView.builder(
+          itemCount: list.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            Hotel hotel = list[index];
+            return Container(
+              margin: EdgeInsets.fromLTRB(
+                16,
+                index == 0 ? 16 : 8,
+                16,
+                index == cNearby.categories.length - 1 ? 16 : 8,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: Image.network(
+                        hotel.cover,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    Row(
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    child: Row(
                       children: [
                         Expanded(
                           child: Column(
@@ -111,15 +137,30 @@ class NearbyPage extends StatelessWidget {
                             ],
                           ),
                         ),
+                        RatingBar.builder(
+                          initialRating: hotel.rate,
+                          minRating: 0,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemBuilder: (context, _) => const Icon(
+                            Icons.star_rate_rounded,
+                            color: Colors.amber,
+                          ),
+                          itemSize: 18,
+                          unratedColor: AppColor.starInActive,
+                          onRatingUpdate: (rating) {},
+                          ignoreGestures: true,
+                        ),
                       ],
-                    )
-                  ],
-                );
-              },
+                    ),
+                  )
+                ],
+              ),
             );
           },
-        ),
-      ],
+        );
+      },
     );
   }
 

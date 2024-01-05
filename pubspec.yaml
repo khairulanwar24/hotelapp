@@ -31,13 +31,14 @@ dependencies:
   change_app_package_name: ^1.1.0
   cloud_firestore: ^4.13.6
   cupertino_icons: ^1.0.2
-  d_info: 0.0.8
+  d_info: ^0.0.8
   firebase_auth: ^4.15.3
   firebase_core: ^2.24.2
   flutter:
     sdk: flutter
+  flutter_rating_bar: ^4.0.1
   get: ^4.6.6
-  google_fonts: 4.0.5
+  google_fonts: ^6.1.0
   intl: ^0.19.0
   shared_preferences: ^2.2.2
 
