@@ -27,7 +27,7 @@ class Hotel {
         id: json["id"],
         name: json["name"],
         cover: json["cover"],
-        image: List<String>.from(json["image"].map((x) => x)),
+        image: List<String>.from(json["images"].map((x) => x)),
         price: json["price"],
         location: json["location"],
         rate: json["rate"]?.toDouble(),

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelkhan/config/app_asset.dart';
 import 'package:hotelkhan/config/app_color.dart';
+import 'package:hotelkhan/config/app_format.dart';
 import 'package:hotelkhan/controller/c_nearby.dart';
+import 'package:hotelkhan/model/hotel.dart';
 
 class NearbyPage extends StatelessWidget {
   NearbyPage({super.key});
@@ -26,6 +28,96 @@ class NearbyPage extends StatelessWidget {
         categories(),
         const SizedBox(
           height: 20,
+        ),
+        GetBuilder<CNearby>(
+          builder: (_) {
+            List<Hotel> list = _.category == 'All Place'
+                ? _.listHotel
+                : _.listHotel
+                    .where((element) => element.category == _.category)
+                    .toList();
+            // filter data
+            if (list.isEmpty) {
+              return const Center(
+                child: Text('Empty ...'),
+              );
+            }
+            return ListView.builder(
+              itemCount: list.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                Hotel hotel = list[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20)),
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Image.network(
+                          hotel.cover,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                hotel.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Start from ',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  Text(
+                                    AppFormat.currency(hotel.price.toDouble()),
+                                    style: const TextStyle(
+                                        color: AppColor.secondary,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const Text(
+                                    '/night ',
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                );
+              },
+            );
+          },
         ),
       ],
     );
@@ -53,7 +145,7 @@ class NearbyPage extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(20),
                   onTap: () {
-                    cNearby.category = category;
+                    _.category = category;
                   },
                   child: Container(
                     alignment: Alignment.center,
