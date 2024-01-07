@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hotelkhan/config/app_asset.dart';
 import 'package:hotelkhan/config/app_color.dart';
+import 'package:hotelkhan/config/app_format.dart';
 import 'package:hotelkhan/config/app_route.dart';
 import 'package:hotelkhan/model/hotel.dart';
+import 'package:hotelkhan/widget/button_custom.dart';
 
 class DetailPage extends StatelessWidget {
   DetailPage({super.key});
@@ -43,6 +45,41 @@ class DetailPage extends StatelessWidget {
           onPressed: () {
             Navigator.pushReplacementNamed(context, AppRoute.home);
           },
+        ),
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            top: BorderSide(color: Colors.grey[100]!, width: 1.5),
+          ),
+        ),
+        height: 80,
+        padding: EdgeInsets.fromLTRB(16, 12, 16, 8),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppFormat.currency(
+                      hotel.price.toDouble(),
+                    ),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: AppColor.secondary,
+                          fontWeight: FontWeight.w900,
+                        ),
+                  ),
+                  Text(
+                    'per night',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+            ButtonCustom(label: 'Booking Now ', onTap: () {})
+          ],
         ),
       ),
       body: Container(
@@ -106,12 +143,51 @@ class DetailPage extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
+            activities(hotel),
             const SizedBox(
-              height: 105,
+              height: 26,
             ),
           ],
         ),
       ),
+    );
+  }
+
+  SizedBox activities(Hotel hotel) {
+    return SizedBox(
+      height: 105,
+      child: ListView.builder(
+          itemCount: hotel.activities.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            Map activities = hotel.activities[index];
+            return Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    index == 0 ? 16 : 8,
+                    0,
+                    index == hotel.image.length - 1 ? 16 : 8,
+                    0,
+                  ),
+                  child: Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        activities['image'],
+                        width: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 6,
+                ),
+                Text(activities['name']),
+              ],
+            );
+          }),
     );
   }
 
