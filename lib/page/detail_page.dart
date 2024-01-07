@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hotelkhan/config/app_asset.dart';
 import 'package:hotelkhan/config/app_color.dart';
 import 'package:hotelkhan/config/app_format.dart';
 import 'package:hotelkhan/config/app_route.dart';
+import 'package:hotelkhan/controller/c_user.dart';
+import 'package:hotelkhan/model/booking.dart';
 import 'package:hotelkhan/model/hotel.dart';
+import 'package:hotelkhan/source/booking_source.dart';
 import 'package:hotelkhan/widget/button_custom.dart';
 
 class DetailPage extends StatelessWidget {
   DetailPage({super.key});
+  final cUser = Get.put(CUser());
+  final Rx<Booking> _bookedData = initBooking.obs;
+  Booking get bookedData => _bookedData.value;
+  set bookedData(Booking n) => _bookedData.value = n;
   final List facilities = [
     {
       'icon': AppAsset.iconCoffee,
@@ -30,6 +38,9 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Hotel hotel = ModalRoute.of(context)!.settings.arguments as Hotel;
+    BookingSource.checkIsBooked(cUser.data.id!, hotel.id).then((bookingValue) {
+      bookedData = bookingValue ?? initBooking;
+    });
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
