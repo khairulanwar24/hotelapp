@@ -29,7 +29,6 @@ class UserSource {
         response['message'] = 'Sign in failed';
       }
     }
-    print(response);
     return response;
   }
 

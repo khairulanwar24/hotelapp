@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:hotelkhan/config/app_asset.dart';
 import 'package:hotelkhan/config/app_color.dart';
 import 'package:hotelkhan/config/app_route.dart';
 import 'package:hotelkhan/model/hotel.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({super.key});
+  DetailPage({super.key});
+  final List facilities = [
+    {
+      'icon': AppAsset.iconCoffee,
+      'label': 'Lounge',
+    },
+    {
+      'icon': AppAsset.iconOffice,
+      'label': 'Office',
+    },
+    {
+      'icon': AppAsset.iconwifi,
+      'label': 'Wi_Fi',
+    },
+    {
+      'icon': AppAsset.iconStore,
+      'label': 'Store',
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -43,51 +62,136 @@ class DetailPage extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
+            name(hotel, context),
+            const SizedBox(
+              height: 16,
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          hotel.name,
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                        Text(
-                          hotel.location,
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Icon(
-                    Icons.star,
-                    color: AppColor.starActive,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    hotel.rate.toString(),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
               ),
-            )
+              child: Text(hotel.description),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              child: Text(
+                'Facilities',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+            gridFacilities(),
+            const SizedBox(
+              height: 16,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              child: Text(
+                'Activities',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            const SizedBox(
+              height: 105,
+            ),
           ],
         ),
+      ),
+    );
+  }
+
+  GridView gridFacilities() {
+    return GridView.builder(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+      itemCount: facilities.length,
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+      ),
+      itemBuilder: (context, index) {
+        return Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey[200]!,
+            ),
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ImageIcon(AssetImage(facilities[index]['icon'])),
+              const SizedBox(
+                height: 4,
+              ),
+              Text(
+                facilities[index]['label'],
+                style: const TextStyle(fontSize: 13),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Padding name(Hotel hotel, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  hotel.name,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+                Text(
+                  hotel.location,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Icon(
+            Icons.star,
+            color: AppColor.starActive,
+          ),
+          const SizedBox(
+            width: 4,
+          ),
+          Text(
+            hotel.rate.toString(),
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     );
   }
