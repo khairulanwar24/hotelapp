@@ -1,20 +1,9 @@
 class Hotel {
-  String id;
-  String name;
-  String cover;
-  List<String> image;
-  int price;
-  String location;
-  double rate;
-  String description;
-  List<Map<String, dynamic>> activities;
-  String category;
-
   Hotel({
     required this.id,
     required this.name,
     required this.cover,
-    required this.image,
+    required this.images,
     required this.price,
     required this.location,
     required this.rate,
@@ -23,14 +12,25 @@ class Hotel {
     required this.category,
   });
 
+  String id;
+  String name;
+  String cover;
+  List<String> images;
+  int price;
+  String location;
+  double rate;
+  String description;
+  List<Map<String, dynamic>> activities;
+  String category;
+
   factory Hotel.fromJson(Map<String, dynamic> json) => Hotel(
         id: json["id"],
         name: json["name"],
         cover: json["cover"],
-        image: List<String>.from(json["images"].map((x) => x)),
+        images: List<String>.from(json["images"].map((x) => x)),
         price: json["price"],
         location: json["location"],
-        rate: json["rate"]?.toDouble(),
+        rate: json["rate"].toDouble(),
         description: json["description"],
         activities: List<Map<String, dynamic>>.from(json["activities"]),
         category: json["category"],
@@ -40,7 +40,7 @@ class Hotel {
         "id": id,
         "name": name,
         "cover": cover,
-        "image": List<dynamic>.from(image.map((x) => x)),
+        "images": List<dynamic>.from(images.map((x) => x)),
         "price": price,
         "location": location,
         "rate": rate,

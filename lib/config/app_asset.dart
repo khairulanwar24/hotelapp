@@ -11,5 +11,5 @@ class AppAsset {
   static const iconCoffee = 'asset/icon_coffee.png';
   static const iconOffice = 'asset/icon_office.png';
   static const iconStore = 'asset/icon_store.png';
-  static const iconwifi = 'asset/icon_wifi.png';
+  static const iconWifi = 'asset/icon_wifi.png';
 }

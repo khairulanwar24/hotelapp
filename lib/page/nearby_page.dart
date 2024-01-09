@@ -10,7 +10,7 @@ import '../controller/c_nearby.dart';
 import '../model/hotel.dart';
 
 class NearbyPage extends StatelessWidget {
-  NearbyPage({Key? key}) : super(key: key);
+  NearbyPage({super.key});
   final cNearby = Get.put(CNearby());
 
   @override

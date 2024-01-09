@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hotelkhan/config/app_asset.dart';
-import 'package:hotelkhan/config/app_color.dart';
 import 'package:hotelkhan/config/app_format.dart';
 import 'package:hotelkhan/config/app_route.dart';
-import 'package:hotelkhan/controller/c_user.dart';
-import 'package:hotelkhan/model/booking.dart';
-import 'package:hotelkhan/model/hotel.dart';
 import 'package:hotelkhan/source/booking_source.dart';
 import 'package:hotelkhan/widget/button_custom.dart';
 
+import '../config/app_color.dart';
+import '../controller/c_user.dart';
+import '../model/booking.dart';
+import '../model/hotel.dart';
+
 class DetailPage extends StatelessWidget {
   DetailPage({super.key});
+
   final cUser = Get.put(CUser());
+
   final Rx<Booking> _bookedData = initBooking.obs;
   Booking get bookedData => _bookedData.value;
   set bookedData(Booking n) => _bookedData.value = n;
+
   final List facilities = [
     {
       'icon': AppAsset.iconCoffee,
@@ -26,8 +30,8 @@ class DetailPage extends StatelessWidget {
       'label': 'Office',
     },
     {
-      'icon': AppAsset.iconwifi,
-      'label': 'Wi_Fi',
+      'icon': AppAsset.iconWifi,
+      'label': 'Wi-Fi',
     },
     {
       'icon': AppAsset.iconStore,
@@ -48,118 +52,155 @@ class DetailPage extends StatelessWidget {
         foregroundColor: Colors.black,
         title: const Text(
           'Hotel Details',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () {
-            Navigator.pushReplacementNamed(context, AppRoute.home);
-          },
-        ),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(color: Colors.grey[100]!, width: 1.5),
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        height: 80,
-        padding: EdgeInsets.fromLTRB(16, 12, 16, 8),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppFormat.currency(
-                      hotel.price.toDouble(),
-                    ),
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: AppColor.secondary,
-                          fontWeight: FontWeight.w900,
-                        ),
-                  ),
-                  Text(
-                    'per night',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ],
-              ),
-            ),
-            ButtonCustom(label: 'Booking Now ', onTap: () {})
-          ],
-        ),
+        centerTitle: true,
       ),
+      // bottomNavigationBar: bookingNow(hotel, context),
+      bottomNavigationBar: Obx(() {
+        if (bookedData.id == '') return bookingNow(hotel, context);
+        return viewReceipt(context);
+      }),
       body: Container(
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
           ),
         ),
         child: ListView(
           children: [
-            const SizedBox(
-              height: 24,
-            ),
+            const SizedBox(height: 24),
             images(hotel),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             name(hotel, context),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(hotel.description),
             ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'Facilities',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
             gridFacilities(),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 'Activities',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             activities(hotel),
-            const SizedBox(
-              height: 26,
-            ),
+            const SizedBox(height: 20),
           ],
         ),
+      ),
+    );
+  }
+
+  Container viewReceipt(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          top: BorderSide(color: Colors.grey[100]!, width: 1.5),
+        ),
+      ),
+      height: 80,
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            'You booked  this.',
+            style: TextStyle(color: Colors.grey),
+          ),
+          Material(
+            color: AppColor.secondary,
+            borderRadius: BorderRadius.circular(20),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  AppRoute.detailBooking,
+                  arguments: bookedData,
+                );
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 36,
+                  vertical: 14,
+                ),
+                child: Text(
+                  'View Receipt',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Container bookingNow(Hotel hotel, BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border(
+          top: BorderSide(color: Colors.grey[100]!, width: 1.5),
+        ),
+      ),
+      height: 80,
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppFormat.currency(hotel.price.toDouble()),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: AppColor.secondary,
+                        fontWeight: FontWeight.w900,
+                      ),
+                ),
+                const Text(
+                  'per night',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          ButtonCustom(
+            label: 'Booking Now',
+            onTap: () {
+              Navigator.pushNamed(context, AppRoute.checkout, arguments: hotel);
+            },
+          ),
+        ],
       ),
     );
   }
@@ -168,37 +209,36 @@ class DetailPage extends StatelessWidget {
     return SizedBox(
       height: 105,
       child: ListView.builder(
-          itemCount: hotel.activities.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            Map activities = hotel.activities[index];
-            return Column(
+        itemCount: hotel.activities.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          Map activity = hotel.activities[index];
+          return Padding(
+            padding: EdgeInsets.fromLTRB(
+              index == 0 ? 16 : 8,
+              0,
+              index == hotel.activities.length - 1 ? 16 : 8,
+              0,
+            ),
+            child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                    index == 0 ? 16 : 8,
-                    0,
-                    index == hotel.image.length - 1 ? 16 : 8,
-                    0,
-                  ),
-                  child: Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        activities['image'],
-                        width: 100,
-                        fit: BoxFit.cover,
-                      ),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      activity['image'],
+                      width: 100,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 6,
-                ),
-                Text(activities['name']),
+                const SizedBox(height: 6),
+                Text(activity['name']),
               ],
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -207,6 +247,7 @@ class DetailPage extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
       itemCount: facilities.length,
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         crossAxisSpacing: 16,
@@ -215,22 +256,18 @@ class DetailPage extends StatelessWidget {
       itemBuilder: (context, index) {
         return Container(
           decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.grey[200]!,
-            ),
+            border: Border.all(color: Colors.grey[200]!),
             borderRadius: BorderRadius.circular(24),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ImageIcon(AssetImage(facilities[index]['icon'])),
-              const SizedBox(
-                height: 4,
-              ),
+              const SizedBox(height: 4),
               Text(
                 facilities[index]['label'],
                 style: const TextStyle(fontSize: 13),
-              )
+              ),
             ],
           ),
         );
@@ -240,7 +277,7 @@ class DetailPage extends StatelessWidget {
 
   Padding name(Hotel hotel, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
           Expanded(
@@ -263,13 +300,8 @@ class DetailPage extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(
-            Icons.star,
-            color: AppColor.starActive,
-          ),
-          const SizedBox(
-            width: 4,
-          ),
+          const Icon(Icons.star, color: AppColor.starActive),
+          const SizedBox(width: 4),
           Text(
             hotel.rate.toString(),
             style: const TextStyle(
@@ -287,20 +319,20 @@ class DetailPage extends StatelessWidget {
     return SizedBox(
       height: 180,
       child: ListView.builder(
-        itemCount: hotel.image.length,
+        itemCount: hotel.images.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Padding(
             padding: EdgeInsets.fromLTRB(
               index == 0 ? 16 : 8,
               0,
-              index == hotel.image.length - 1 ? 16 : 8,
+              index == hotel.images.length - 1 ? 16 : 8,
               0,
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
-                hotel.image[index],
+                hotel.images[index],
                 fit: BoxFit.cover,
                 height: 180,
                 width: 240,
