@@ -4,8 +4,11 @@ import 'package:hotelkhan/config/app_asset.dart';
 import 'package:hotelkhan/config/app_color.dart';
 import 'package:hotelkhan/config/app_format.dart';
 import 'package:hotelkhan/controller/c_user.dart';
+import 'package:hotelkhan/model/booking.dart';
 import 'package:hotelkhan/model/hotel.dart';
+import 'package:hotelkhan/source/booking_source.dart';
 import 'package:hotelkhan/widget/button_custom.dart';
+import 'package:intl/intl.dart';
 
 class CheckoutPage extends StatelessWidget {
   CheckoutPage({super.key});
@@ -48,7 +51,31 @@ class CheckoutPage extends StatelessWidget {
             height: 20,
           ),
           ButtonCustom(
-              label: 'Procced to Payment', isExpand: true, onTap: () {})
+            label: 'Procced to Payment',
+            isExpand: true,
+            onTap: () {
+              BookingSource.addBooking(
+                cUser.data.id!,
+                Booking(
+                  id: '',
+                  idHotel: hotel.id,
+                  cover: hotel.cover,
+                  name: hotel.name,
+                  location: hotel.location,
+                  date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                  guest: 1,
+                  breakfast: 'included',
+                  checkInTime: '08.00 WIB',
+                  night: 2,
+                  serviceFee: 6,
+                  activities: 40,
+                  totalPayment: hotel.price + 2 + 6 + 40,
+                  status: 'PAID',
+                  isDone: false,
+                ),
+              );
+            },
+          )
         ],
       ),
     );
