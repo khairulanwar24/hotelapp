@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hotelkhan/config/app_asset.dart';
+import 'package:hotelkhan/config/app_color.dart';
 import 'package:hotelkhan/config/app_format.dart';
 import 'package:hotelkhan/controller/c_user.dart';
 import 'package:hotelkhan/model/hotel.dart';
+import 'package:hotelkhan/widget/button_custom.dart';
 
 class CheckoutPage extends StatelessWidget {
   CheckoutPage({super.key});
@@ -40,6 +43,76 @@ class CheckoutPage extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
+          paymentMethod(context),
+          const SizedBox(
+            height: 20,
+          ),
+          ButtonCustom(
+              label: 'Procced to Payment', isExpand: true, onTap: () {})
+        ],
+      ),
+    );
+  }
+
+  Container paymentMethod(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Payment Method',
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.grey)),
+            padding: const EdgeInsets.all(16),
+            child: Row(children: [
+              Image.asset(
+                AppAsset.iconMasterCard,
+                width: 50,
+              ),
+              SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Elliot York Owell',
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                    Text(
+                      'Balance ${AppFormat.currency(80000)}',
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.check_circle,
+                color: AppColor.secondary,
+              )
+            ]),
+          )
         ],
       ),
     );
