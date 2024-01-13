@@ -8,6 +8,7 @@ import 'package:hotelkhan/config/session.dart';
 import 'package:hotelkhan/firebase_options.dart';
 import 'package:hotelkhan/model/user.dart';
 import 'package:hotelkhan/page/checkout_page.dart';
+import 'package:hotelkhan/page/checkout_success_page.dart';
 import 'package:hotelkhan/page/detail_page.dart';
 import 'package:hotelkhan/page/home_page.dart';
 import 'package:hotelkhan/page/intro_page.dart';
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
         AppRoute.signin: (context) => SigninPage(),
         AppRoute.detail: (context) => DetailPage(),
         AppRoute.checkout: (context) => CheckoutPage(),
-        AppRoute.checkoutSuccess: (context) => const IntroPage(),
+        AppRoute.checkoutSuccess: (context) => const CheckoutSuccessPage(),
         AppRoute.detailBooking: (context) => const IntroPage(),
       },
     );

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hotelkhan/config/app_asset.dart';
 import 'package:hotelkhan/config/app_color.dart';
 import 'package:hotelkhan/config/app_format.dart';
+import 'package:hotelkhan/config/app_route.dart';
 import 'package:hotelkhan/controller/c_user.dart';
 import 'package:hotelkhan/model/booking.dart';
 import 'package:hotelkhan/model/hotel.dart';
@@ -11,13 +12,12 @@ import 'package:hotelkhan/widget/button_custom.dart';
 import 'package:intl/intl.dart';
 
 class CheckoutPage extends StatelessWidget {
-  CheckoutPage({super.key});
+  CheckoutPage({Key? key}) : super(key: key);
   final cUser = Get.put(CUser());
 
   @override
   Widget build(BuildContext context) {
     Hotel hotel = ModalRoute.of(context)!.settings.arguments as Hotel;
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -35,21 +35,12 @@ class CheckoutPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          header(
-            hotel,
-            context,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
+          header(hotel, context),
+          const SizedBox(height: 16),
           roomDetails(context),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           paymentMethod(context),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           ButtonCustom(
             label: 'Procced to Payment',
             isExpand: true,
@@ -64,7 +55,7 @@ class CheckoutPage extends StatelessWidget {
                   location: hotel.location,
                   date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
                   guest: 1,
-                  breakfast: 'included',
+                  breakfast: 'Included',
                   checkInTime: '08.00 WIB',
                   night: 2,
                   serviceFee: 6,
@@ -74,8 +65,13 @@ class CheckoutPage extends StatelessWidget {
                   isDone: false,
                 ),
               );
+              Navigator.pushNamed(
+                context,
+                AppRoute.checkoutSuccess,
+                arguments: hotel,
+              );
             },
-          )
+          ),
         ],
       ),
     );
@@ -97,49 +93,45 @@ class CheckoutPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
           Container(
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.grey)),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.grey[300]!),
+            ),
             padding: const EdgeInsets.all(16),
-            child: Row(children: [
-              Image.asset(
-                AppAsset.iconMasterCard,
-                width: 50,
-              ),
-              SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Elliot York Owell',
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    Text(
-                      'Balance ${AppFormat.currency(80000)}',
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
+            child: Row(
+              children: [
+                Image.asset(
+                  AppAsset.iconMasterCard,
+                  width: 50,
                 ),
-              ),
-              Icon(
-                Icons.check_circle,
-                color: AppColor.secondary,
-              )
-            ]),
-          )
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Elliot York Owell',
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      Text(
+                        'Balance ${AppFormat.currency(80000)}',
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Icon(Icons.check_circle, color: AppColor.secondary),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -157,46 +149,31 @@ class CheckoutPage extends StatelessWidget {
         children: [
           Text(
             'Room Details',
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium!
-                .copyWith(fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
           ),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
           itemRoomDetail(
             context,
             'Date',
             AppFormat.date(DateTime.now().toIso8601String()),
           ),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
           itemRoomDetail(context, 'Guest', '2 Guest'),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
           itemRoomDetail(context, 'Breakfast', 'Included'),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
           itemRoomDetail(context, 'Check-in Time', '14:00 WIB'),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
           itemRoomDetail(context, '1 night', AppFormat.currency(12900)),
-          const SizedBox(
-            height: 8,
-          ),
-          itemRoomDetail(context, 'Service Fee', AppFormat.currency(50)),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
+          itemRoomDetail(context, 'Service fee', AppFormat.currency(50)),
+          const SizedBox(height: 8),
+          itemRoomDetail(context, 'Activities', AppFormat.currency(350)),
+          const SizedBox(height: 8),
           itemRoomDetail(context, 'Total Payment', AppFormat.currency(13550)),
-          const SizedBox(
-            height: 8,
-          ),
+          const SizedBox(height: 8),
         ],
       ),
     );
@@ -212,16 +189,14 @@ class CheckoutPage extends StatelessWidget {
         ),
         Text(
           data,
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(fontWeight: FontWeight.bold),
+          style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ],
     );
   }
 
-// =========================================================
   Container header(Hotel hotel, BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -240,9 +215,7 @@ class CheckoutPage extends StatelessWidget {
               width: 90,
             ),
           ),
-          const SizedBox(
-            width: 16,
-          ),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,12 +226,16 @@ class CheckoutPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                Text(hotel.location,
-                    style: const TextStyle(
-                        color: Colors.grey, fontWeight: FontWeight.w300)),
+                Text(
+                  hotel.location,
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

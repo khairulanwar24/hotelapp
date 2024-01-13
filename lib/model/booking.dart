@@ -1,20 +1,4 @@
 class Booking {
-  String id;
-  String idHotel;
-  String cover;
-  String name;
-  String location;
-  String date;
-  int guest;
-  String breakfast;
-  String checkInTime;
-  int night;
-  int serviceFee;
-  int activities;
-  int totalPayment;
-  String status;
-  bool isDone;
-
   Booking({
     required this.id,
     required this.idHotel,
@@ -32,6 +16,22 @@ class Booking {
     required this.status,
     required this.isDone,
   });
+
+  String id;
+  String idHotel;
+  String cover;
+  String name;
+  String location;
+  String date;
+  int guest;
+  String breakfast;
+  String checkInTime;
+  int night;
+  int serviceFee;
+  int activities;
+  int totalPayment;
+  String status;
+  bool isDone;
 
   factory Booking.fromJson(Map<String, dynamic> json) => Booking(
         id: json["id"],
