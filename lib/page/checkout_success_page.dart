@@ -7,7 +7,7 @@ import '../controller/c_home.dart';
 import '../model/hotel.dart';
 
 class CheckoutSuccessPage extends StatelessWidget {
-  const CheckoutSuccessPage({Key? key}) : super(key: key);
+  const CheckoutSuccessPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class CheckoutSuccessPage extends StatelessWidget {
           const SizedBox(height: 46),
           Text(
             'Payment Success',
-            style: Theme.of(context).textTheme.headline5!.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),

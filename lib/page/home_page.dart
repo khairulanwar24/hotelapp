@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hotelkhan/config/app_asset.dart';
 import 'package:hotelkhan/config/app_color.dart';
 import 'package:hotelkhan/controller/c_home.dart';
+import 'package:hotelkhan/page/history_page.dart';
 import 'package:hotelkhan/page/nearby_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,7 +20,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(body: Obx(() {
       if (cHome.indexPage == 1) {
-        return const Text('History Page');
+        return const HistoryPage();
       }
       return NearbyPage();
     }), bottomNavigationBar: Obx(() {

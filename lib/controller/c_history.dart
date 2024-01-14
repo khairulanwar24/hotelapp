@@ -6,7 +6,7 @@ class CHistory extends GetxController {
   final _listHistory = <Booking>[].obs;
   List<Booking> get listHistory => _listHistory.value;
 
-  getListHotel(String id) async {
+  getListBooking(String id) async {
     _listHistory.value = await BookingSource.getHistory(id);
     update();
   }

@@ -12,7 +12,7 @@ import 'package:hotelkhan/widget/button_custom.dart';
 import 'package:intl/intl.dart';
 
 class CheckoutPage extends StatelessWidget {
-  CheckoutPage({Key? key}) : super(key: key);
+  CheckoutPage({super.key});
   final cUser = Get.put(CUser());
 
   @override
