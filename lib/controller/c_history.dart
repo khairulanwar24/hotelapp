@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
-import 'package:hotelkhan/model/booking.dart';
-import 'package:hotelkhan/source/booking_source.dart';
+
+import '../model/booking.dart';
+import '../source/booking_source.dart';
 
 class CHistory extends GetxController {
   final _listHistory = <Booking>[].obs;
