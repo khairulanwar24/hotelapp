@@ -4,6 +4,7 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:hotelkhan/config/app_asset.dart';
 import 'package:hotelkhan/config/app_color.dart';
 import 'package:hotelkhan/config/app_format.dart';
+import 'package:hotelkhan/config/app_route.dart';
 import 'package:hotelkhan/controller/c_history.dart';
 import 'package:hotelkhan/controller/c_user.dart';
 import 'package:hotelkhan/model/booking.dart';
@@ -36,8 +37,8 @@ class _HistoryPageState extends State<HistoryPage> {
         const SizedBox(height: 24),
         GetBuilder<CHistory>(builder: (_) {
           return GroupedListView<Booking, String>(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
-            physics: NeverScrollableScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             elements: _.listHistory,
             groupBy: (element) => element.date,
@@ -60,7 +61,14 @@ class _HistoryPageState extends State<HistoryPage> {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: GestureDetector(
-                    onTap: () {}, child: item(context, element)),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoute.detailBooking,
+                        arguments: element,
+                      );
+                    },
+                    child: item(context, element)),
               );
             },
             itemComparator: (item1, item2) =>
@@ -78,7 +86,7 @@ class _HistoryPageState extends State<HistoryPage> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
       ),
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Row(
         children: [
           ClipRRect(
@@ -90,7 +98,7 @@ class _HistoryPageState extends State<HistoryPage> {
               width: 90,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 16,
           ),
           Expanded(
@@ -105,13 +113,13 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
                 Text(
                   AppFormat.date(booking.date),
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.grey, fontWeight: FontWeight.w300),
                 )
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 16,
           ),
           Container(
@@ -119,13 +127,13 @@ class _HistoryPageState extends State<HistoryPage> {
               color: booking.status == 'PAID' ? AppColor.secondary : Colors.red,
               borderRadius: BorderRadius.circular(30),
             ),
-            padding: EdgeInsets.symmetric(
+            padding: const EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 2,
             ),
             child: Text(
               booking.status,
-              style: TextStyle(color: Colors.white, fontSize: 12),
+              style: const TextStyle(color: Colors.white, fontSize: 12),
             ),
           )
         ],
