@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:hotelkhan/config/app_asset.dart';
+import 'package:hotelkhan/config/app_color.dart';
 import 'package:hotelkhan/config/app_format.dart';
 import 'package:hotelkhan/controller/c_history.dart';
 import 'package:hotelkhan/controller/c_user.dart';
@@ -55,15 +56,78 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
               );
             },
-            itemBuilder: (context, dynamic element) => Text(element['name']),
+            itemBuilder: (context, element) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: GestureDetector(
+                    onTap: () {}, child: item(context, element)),
+              );
+            },
             itemComparator: (item1, item2) =>
-                item1['name'].compareTo(item2['name']), // optional
-            useStickyGroupSeparators: true, // optional
-            floatingHeader: true, // optional
-            order: GroupedListOrder.ASC, // optional
+                item1.date.compareTo(item2.date), // optional (sorting by date)
+            order: GroupedListOrder.DESC, // optional
           );
         }),
       ],
+    );
+  }
+
+  Widget item(BuildContext context, Booking booking) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      padding: EdgeInsets.all(16),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.network(
+              booking.cover,
+              fit: BoxFit.cover,
+              height: 70,
+              width: 90,
+            ),
+          ),
+          SizedBox(
+            width: 16,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                booking.name,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              Text(
+                AppFormat.date(booking.date),
+                style:
+                    TextStyle(color: Colors.grey, fontWeight: FontWeight.w300),
+              )
+            ],
+          ),
+          SizedBox(
+            width: 16,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: booking.status == 'PAID' ? AppColor.secondary : Colors.red,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            padding: EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 2,
+            ),
+            child: Text(
+              booking.status,
+              style: TextStyle(color: Colors.white, fontSize: 12),
+            ),
+          )
+        ],
+      ),
     );
   }
 
