@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:hotelkhan/config/app_asset.dart';
+import 'package:hotelkhan/config/app_format.dart';
 import 'package:hotelkhan/controller/c_history.dart';
 import 'package:hotelkhan/controller/c_user.dart';
+import 'package:hotelkhan/model/booking.dart';
+import 'package:intl/intl.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -28,7 +32,37 @@ class _HistoryPageState extends State<HistoryPage> {
       children: [
         const SizedBox(height: 24),
         header(context),
-        const SizedBox(height: 24)
+        const SizedBox(height: 24),
+        GetBuilder<CHistory>(builder: (_) {
+          return GroupedListView<Booking, String>(
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            elements: _.listHistory,
+            groupBy: (element) => element.date,
+            groupSeparatorBuilder: (String groupByValue) {
+              String date = DateFormat('yyyy-MM-dd').format(DateTime.now()) ==
+                      groupByValue
+                  ? 'Today Now'
+                  : AppFormat.dateMonth(groupByValue);
+              return Padding(
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                child: Text(
+                  date,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              );
+            },
+            itemBuilder: (context, dynamic element) => Text(element['name']),
+            itemComparator: (item1, item2) =>
+                item1['name'].compareTo(item2['name']), // optional
+            useStickyGroupSeparators: true, // optional
+            floatingHeader: true, // optional
+            order: GroupedListOrder.ASC, // optional
+          );
+        }),
       ],
     );
   }
