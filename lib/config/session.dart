@@ -21,8 +21,7 @@ class Session {
 
   // ambil  session user
   static Future<User> getUser() async {
-    User user =
-        User(id: '', name: '', email: '', password: ''); // default value
+    User user = User(); // default value
     final pref = await SharedPreferences.getInstance();
     String? stringUser = pref.getString('user');
     if (stringUser != null) {
@@ -38,7 +37,7 @@ class Session {
     final pref = await SharedPreferences.getInstance();
     bool success = await pref.remove('user');
     final cUser = Get.put(CUser());
-    cUser.setData(CUser());
+    cUser.setData(User());
     return success;
   }
 }
