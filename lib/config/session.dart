@@ -28,7 +28,7 @@ class Session {
       Map<String, dynamic> mapUser = jsonDecode(stringUser);
       user = User.fromJson(mapUser);
     }
-    final cUser = Get.put(CUser());
+    final cUser = Get.put(CUser()); // add data user use Get
     cUser.setData(user);
     return user;
   }
